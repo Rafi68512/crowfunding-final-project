@@ -75,13 +75,14 @@ const Payment = () => {
   return (
     <>
       <IconButton onClick={() => window.history.back()} style={{ position: 'absolute', left: '10px',marginTop:'20px',color:'white' }}><ArrowBack /></IconButton>
-      <h1 className="text-4xl bg-cyan-700 hover:bg-cyan-500 text-white font-bold px-8" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '10vh'}}>Form Donasi</h1>
+      <h1 className="text-4xl bg-cyan-700 hover:bg-cyan-500 text-white font-bold px-8" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', height: '10vh'}}>Formulir Donasi</h1>
     
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '50vw', p: 4 }}>
+      <h1 className="text-black font-bold px-4">Donasi Terbaik Anda</h1><br/>
         <TextField type='number' label="User ID" value={user_id} onChange={(e) => setUser_id(parseInt(e.target.value))} sx={{ mb: 2 }} />
         <TextField type='number' label="Order ID" value={order_id} onChange={(e) => setOrder_id(parseInt(e.target.value))} sx={{ mb: 2 }} />
-        <TextField type='number' label="Jumlah" value={jumlah} onChange={(e) => setJumlah(e.target.value)} sx={{ mb: 2 }} />
+        <TextField type='number' label="Jumlah" value={jumlah} onChange={(e) => setJumlah(e.target.value)} sx={{ mb: 2 }} /> <br />
         <button className="shadow bg-cyan-500 hover:bg-cyan-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button" onClick={process}>Donasi</button>
       </Box>
     </div>

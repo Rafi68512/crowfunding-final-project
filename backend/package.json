@@ -13,7 +13,8 @@
     "sequelize-cli": "^6.6.2"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "seed": "node db/index.js"
   },
   "name": "api",
   "version": "1.0.0",
