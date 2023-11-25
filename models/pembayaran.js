@@ -21,5 +21,11 @@ module.exports = (sequelize) => {
     },
   });
 
+  Pembayaran.associate = (models) => {
+    Pembayaran.belongsTo(models.Proyeks, {
+      foreignKey: "proyek_id",
+    });
+  };
+
   return Pembayaran;
 };

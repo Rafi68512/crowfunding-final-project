@@ -11,11 +11,16 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        user_id: {
-          type: Sequelize.INTEGER,
-        },
         nama: {
           type: Sequelize.STRING,
+        },
+        user_id: {
+          type: Sequelize.INTEGER,
+          onDelete: "CASCADE",
+          references: {
+            model: "User",
+            key: "id",
+          },
         },
       },
       {

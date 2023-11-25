@@ -1,11 +1,9 @@
-"use strict";
-const { Model } = require("sequelize");
+// models
+const { DataTypes } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
-  class Proyek extends Model {
-    static associate(models) {}
-  }
-  Proyek.init(
+module.exports = (sequelize) => {
+  const Proyek = sequelize.define(
+    "Proyek",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -14,24 +12,32 @@ module.exports = (sequelize, DataTypes) => {
       },
       nama: {
         type: DataTypes.STRING,
-        allowNull: false,
       },
       deskripsi: {
         type: DataTypes.TEXT,
-        allowNull: false,
       },
-      kategori_id: {
+      goal: {
         type: DataTypes.INTEGER,
-        allowNull: false,
       },
     },
     {
-      sequelize,
-      modelName: "Proyek",
-      tableName: "proyek",
-      underscored: false,
-      timestamps: false,
+      tableName: "Proyek",
     }
   );
+
+  Proyek.associate = (models) => {
+    Proyek.hasMany(models.Pembayarans, {
+      foreignKey: "proyek_id",
+    });
+    Proyek.hasMany(models.Komentars, {
+      foreignKey: "proyek_id",
+      onDelete: "CASCADE",
+    });
+    Proyek.belongsTo(models.Kategori, {
+      foreignKey: "kategori_id",
+      onDelete: "CASCADE",
+    });
+  };
+
   return Proyek;
 };

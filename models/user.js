@@ -19,13 +19,34 @@ module.exports = (sequelize) => {
   });
 
   User.associate = (models) => {
-    User.hasOne(models.Admin, { foreignKey: "user_id" });
-    User.hasOne(models.Login, { foreignKey: "user_id" });
-    User.hasOne(models.Register, { foreignKey: "user_id" });
-    User.hasOne(models.Logout, { foreignKey: "user_id" });
-    User.hasOne(models.Anggota, { foreignKey: "user_id" });
-    User.hasOne(models.Komentar, { foreignKey: "user_id" });
-    User.hasOne(models.Pembayaran, { foreignKey: "user_id" });
+    User.hasOne(models.Admin, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Login, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Register, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Logout, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Anggota, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Komentar, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    User.hasOne(models.Pembayaran, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
   };
 
   return User;

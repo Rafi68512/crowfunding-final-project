@@ -9,11 +9,23 @@ module.exports = (sequelize) => {
     },
     user_id: {
       type: DataTypes.INTEGER,
+      onDelete: "CASCADE",
+      references: {
+        model: "User",
+        key: "id",
+      },
     },
     timestamp: {
       type: DataTypes.DATE,
     },
   });
+
+  Login.associate = (models) => {
+    Login.belongsTo(models.User, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+  };
 
   return Logout;
 };

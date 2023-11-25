@@ -3,15 +3,12 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      "Admins",
+      "Admin",
       {
         id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
-          type: Sequelize.INTEGER,
-        },
-        user_id: {
           type: Sequelize.INTEGER,
         },
         username: {
@@ -23,6 +20,14 @@ module.exports = {
         password: {
           type: Sequelize.STRING,
         },
+        user_id: {
+          type: Sequelize.INTEGER,
+          onDelete: "CASCADE",
+          references: {
+            model: "User",
+            key: "id",
+          },
+        },
       },
       {
         timestamps: false,
@@ -30,6 +35,6 @@ module.exports = {
     );
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Admins");
+    await queryInterface.dropTable("Admin");
   },
 };

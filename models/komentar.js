@@ -18,5 +18,16 @@ module.exports = (sequelize) => {
     },
   });
 
+  Komentar.associate = (models) => {
+    Komentar.belongsTo(models.Users, {
+      foreignKey: "user_id",
+      onDelete: "CASCADE",
+    });
+    Komentar.belongsTo(models.Proyek, {
+      foreignKey: "proyek_id",
+      onDelete: "CASCADE",
+    });
+  };
+
   return Komentar;
 };

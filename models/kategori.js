@@ -13,7 +13,9 @@ module.exports = (sequelize) => {
   });
 
   Kategori.associate = (models) => {
-    Kategori.hasOne(models.Proyek, { foreignKey: "kategori_id" });
+    Kategori.hasOne(models.Proyek, {
+      foreignKey: "kategori_id",
+    });
   };
 
   return Kategori;
