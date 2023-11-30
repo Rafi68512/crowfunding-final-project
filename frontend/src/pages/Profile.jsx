@@ -1,21 +1,21 @@
-import './App.css';
+import "../App.css";
 // src/App.js
-import React, { useState } from 'react';
+import { useState } from "react";
 
 function Profile() {
   const [image, setImage] = useState(null);
-  const [name, setName] = useState('');
-  const [email, setemail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setemail] = useState("");
+  const [Password, setPassword] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
 
     // Menyembunyikan nama file dari input
-    const input = document.getElementById('upload-input');
+    const input = document.getElementById("upload-input");
     if (input) {
-      input.value = '';
+      input.value = "";
     }
   };
 
@@ -42,12 +42,7 @@ function Profile() {
         <h1 className="text-2xl font-bold mb-4">Edit Profile</h1>
         {/* Pratinjau Gambar */}
         {image ? (
-          <img
-            src={URL.createObjectURL(image)}
-            alt="Profile Preview"
-            className="profile-image"
-          />
-
+          <img src={URL.createObjectURL(image)} alt="Profile Preview" className="profile-image" />
         ) : (
           <div className="profile-image-placeholder"></div>
         )}
@@ -98,10 +93,7 @@ function Profile() {
           onChange={handlePasswordChange}
           className="Password-input"
         />
-        <button
-          onClick={handleImageUpload}
-          className="upload-button"
-        >
+        <button onClick={handleImageUpload} className="upload-button">
           Save Changes
         </button>
       </div>
