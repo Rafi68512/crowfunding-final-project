@@ -1,15 +1,18 @@
 const express = require('express');
-const { DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require("sequelize");
 const midtransClient = require('midtrans-client');
 const axios = require('axios');
 const dotenv = require('dotenv');
-const sequelize = require('../models/index.js');
+const seq = new Sequelize("donasi", "postgres", "12345", {
+    host: "localhost",
+    dialect: "postgres",
+});
 
 dotenv.config();
 
 const router = express.Router();
 
-const Pembayaran = sequelize.define('Pembayaran', {
+const Pembayaran = seq.define('Pembayaran', {
     user_id: {
         type: DataTypes.INTEGER,
     },

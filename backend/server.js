@@ -1,10 +1,14 @@
 const app = require('./app.js'); 
-const sequelize = require('./models/index.js');
+const { Sequelize, DataTypes } = require("sequelize");
+const seq = new Sequelize("donasi", "postgres", "12345", {
+    host: "localhost",
+    dialect: "postgres",
+});
 
 const port = 3000;
 
 // Cek koneksi ke database
-sequelize
+seq
     .authenticate()
     .then(() => {
         console.log('Koneksi ke database berhasil.');
