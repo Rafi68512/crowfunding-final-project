@@ -1,24 +1,24 @@
-import app from './app.js'
-import pkg from 'pg';
-const { Pool } = pkg;
+const app = require('./app.js'); 
+const sequelize = require('./models/index.js');
 
-const port = 3000
+const port = 3000;
 
-app.get("/", (req,res)=>{
-    res.send(`Server berjalan di port ${port}`)
-})
+// Cek koneksi ke database
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Koneksi ke database berhasil.');
+    })
+    .catch((err) => {
+        console.error('Gagal terkoneksi ke database:', err);
+    });
 
-app.listen(3000,()=>{
-    console.log(`Running on port ${port}`)
-})
-
-// Konfigurasi koneksi ke PostgreSQL
-const pool = new Pool({
-    user: 'postgres', 
-    host: 'localhost',
-    database: 'donasi', 
-    password: 'Kopisusu1212', 
-    port: 5432
+app.get('/', (req, res) => {
+    res.send(`Server berjalan di port ${port}`);
 });
 
-export default pool;
+app.listen(port, () => {
+    console.log(`Running on port ${port}`);
+});
+
+module.exports = app;

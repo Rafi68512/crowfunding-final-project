@@ -1,51 +1,135 @@
-import express from "express";
-import midtransClient from "midtrans-client";
-import pool from '../server.js'; 
+const express = require('express');
+const { DataTypes } = require('sequelize');
+const midtransClient = require('midtrans-client');
+const axios = require('axios');
+const dotenv = require('dotenv');
+const sequelize = require('../models/index.js');
+
+dotenv.config();
 
 const router = express.Router();
 
-router.post("/process-transaction", async (req, res) => {
+const Pembayaran = sequelize.define('Pembayaran', {
+    user_id: {
+        type: DataTypes.INTEGER,
+    },
+    proyek_id: {
+        type: DataTypes.INTEGER,
+    },
+    jumlah_pembayaran: {
+        type: DataTypes.DECIMAL,
+    },
+}, {
+    tableName: 'Pembayaran'
+});
+
+const snap = new midtransClient.Snap({
+    isProduction: false,
+    serverKey: process.env.MIDTRANS_SERVER_KEY,
+    clientKey: process.env.MIDTRANS_CLIENT_KEY,
+});
+
+router.post('/process-transaction', async (req, res) => {
     try {
-        const snap = new midtransClient.Snap({
-            isProduction: false,
-            serverKey: "SB-Mid-server-3dWfju7Oj_ipUohRJIwRMakm",
-            clientKey: "SB-Mid-client-8fEeQxWzAXIykRuE",
-        });
+        if (req.body.notification) {
+            const notification = req.body.notification;
 
-        const parameter = {
-            transaction_details: {
-                order_id: req.body.order_id,
-                gross_amount: req.body.total,
-            },
-            customer_details: {
-                first_name: req.body.name,
-            },
-        };
-
-        snap.createTransaction(parameter).then(async (transaction) => {
-            const dataPayment = {
-                response: JSON.stringify(transaction),
-            };
-            const token = transaction.token;
-
-            // Simpan data transaksi ke dalam PostgreSQL
+            const { orderId, transactionStatus } = notification;
+        
             try {
-                const client = await pool.connect();
-                await client.query('BEGIN');
-                const queryText = 'INSERT INTO transactions (proyek_id, total, nama) VALUES ($1, $2, $3)';
-                const values = [req.body.order_id, req.body.total, req.body.name];
-                await client.query(queryText, values);
-                await client.query('COMMIT');
-                client.release();
-
-                res.status(200).json({ message: "berhasil", dataPayment, token: token });
+                const payment = await Pembayaran.findOne({ where: { proyek_id: orderId } });
+                if (payment) {
+                    if (transactionStatus === 'capture') {
+                        await payment.update({ transaction_status: 'success' });
+                    } else if (transactionStatus === 'cancel') {
+                        await payment.update({ transaction_status: 'failure' });
+                    }
+        
+                    res.status(200).send('Notification received and processed.');
+                } else {
+                    res.status(404).send('Payment not found.');
+                }
             } catch (error) {
-                res.status(500).json({ message: error.message });
+                res.status(500).send('Error processing notification.');
             }
-        });
+        } else {
+            const parameter = {
+                transaction_details: {
+                    order_id: req.body.order_id,
+                    gross_amount: req.body.jumlah,
+                },
+                customer_details: {
+                    user_id: req.body.user_id,
+                },
+            };
+
+            const transaction = await snap.createTransaction(parameter);
+
+            console.log('Data yang akan disimpan:', {
+                user_id: req.body.user_id,
+                proyek_id: req.body.order_id,
+                jumlah_pembayaran: req.body.jumlah,
+            });
+
+            await Pembayaran.create({
+                user_id: req.body.user_id,
+                proyek_id: req.body.order_id,
+                jumlah_pembayaran: req.body.jumlah,
+                
+            });
+            res.status(200).json({
+                message: 'Berhasil menambahkan pembayaran.',
+                token: transaction.token
+            });
+        }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({
+            message: error.message
+        });
     }
 });
 
-export default router;
+// Endpoint untuk menampilkan seluruh data pembayaran (DATABASE)
+router.get('/payments', async (req, res) => {
+    try {
+        const payments = await Pembayaran.findAll(); // Mengambil seluruh data pembayaran dari database
+
+        res.status(200).json({
+            message: 'Data pembayaran berhasil ditemukan',
+            data: payments
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
+
+// Endpoint untuk mendapatkan detail transaksi berdasarkan transactionId
+router.get('/transaction-details/:transactionId', async (req, res) => {
+    try {
+        const { transactionId } = req.params;
+        const midtransApiUrl = `https://api.sandbox.midtrans.com/v2/${transactionId}/status`; // Ganti dengan URL API Midtrans yang sesuai
+
+        // Pastikan untuk mengatur header Authorization dengan menggunakan Basic Auth
+        const authHeader = {
+            headers: {
+                Authorization: `Basic ${Buffer.from(`${process.env.MIDTRANS_SERVER_KEY}:`).toString('base64')}`
+            }
+        };
+
+        // Mengambil detail transaksi dari Midtrans menggunakan endpoint API
+        const transactionDetails = await axios.get(midtransApiUrl, authHeader);
+
+        res.status(200).json({
+            message: 'Detail transaksi berhasil ditemukan',
+            data: transactionDetails.data
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+});
+
+module.exports = router;

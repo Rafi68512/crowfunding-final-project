@@ -1,13 +1,14 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import paymentRoutes from './routes/paymentRoutes.js'
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const paymentRoutes = require('./routes/paymentRoutes.js');
 
-const app = express()
-app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended:true}))
+const app = express();
 
-app.use("/api/payment",paymentRoutes) 
+app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-export default app;
+app.use('/api/payment', paymentRoutes);
+
+module.exports = app;
