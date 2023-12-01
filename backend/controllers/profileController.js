@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-const seq = new Sequelize("donasi", "postgres", "12345", {
+const seq = new Sequelize("donasi", "postgres", "postgres", {
   host: "localhost",
   dialect: "postgres",
 });
@@ -13,7 +13,7 @@ const User = seq.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    username: {
+    nama: {
       type: DataTypes.STRING,
     },
     email: {
@@ -59,10 +59,10 @@ const getProfileById = async (req, res) => {
 };
 const addProfile = async (req, res) => {
   const { username, email, password } = req.body;
-  console.log(username, email, password);
-  
+  console.log(nama, username, email, password);
 
   const profile = await User.create({
+    nama,
     username,
     email,
     password,
