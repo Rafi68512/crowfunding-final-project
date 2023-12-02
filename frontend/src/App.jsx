@@ -7,10 +7,12 @@ import ListProyek from "./pages/ListProyek";
 import CreateProyek from "./pages/CreateProyek";
 import ListProyekUser from "./pages/ListProyekUser";
 import Payment from "./pages/Payment";
+import DescProyek from "./pages/DescProyek";
 
 function App() {
   return (
     <Routes>
+      <Route path="desc" element={<DescProyek />}></Route>
       <Route path="login" element={<Login />}></Route>
       <Route path="register" element={<Register />}></Route>
       <Route path="profile" element={<Profile />}></Route>
