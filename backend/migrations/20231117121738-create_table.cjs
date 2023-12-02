@@ -76,7 +76,6 @@ module.exports = {
         },
         allowNull: false,
       },
-      terkumpul: Sequelize.INTEGER,
       image: {
         type: Sequelize.STRING,
         allowNull: true,

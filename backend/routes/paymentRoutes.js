@@ -125,10 +125,10 @@ router.get("/payments", async (req, res) => {
 });
 
 // Endpoint untuk mendapatkan detail transaksi berdasarkan transactionId
-router.get("/transaction-details/:transactionId", async (req, res) => {
+router.get("/transaction-details/:orderId", async (req, res) => {
   try {
-    const { transactionId } = req.params;
-    const midtransApiUrl = `https://api.sandbox.midtrans.com/v2/${transactionId}/status`; // Ganti dengan URL API Midtrans yang sesuai
+    const { orderId } = req.params;
+    const midtransApiUrl = `https://api.sandbox.midtrans.com/v2/${orderId}/status`; // URL API Midtrans yang sesuai dengan orderId
 
     // Pastikan untuk mengatur header Authorization dengan menggunakan Basic Auth
     const authHeader = {
