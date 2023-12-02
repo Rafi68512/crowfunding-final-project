@@ -1,3 +1,5 @@
+// migration
+
 "use strict";
 
 module.exports = {
