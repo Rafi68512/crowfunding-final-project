@@ -79,7 +79,6 @@ const updateProyek = async (req, res) => {
   try {
     const proyek = await Proyek.findByPk(req.params.id);
     if (proyek) {
-      // Update attributes based on your model
       await proyek.update({
         nama: req.body.nama,
         deskripsi: req.body.deskripsi,
