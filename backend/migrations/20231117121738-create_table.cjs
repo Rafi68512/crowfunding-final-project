@@ -3,15 +3,22 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Users", {
-      
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      username: Sequelize.STRING,
+      nama: Sequelize.STRING,
       email: Sequelize.STRING,
       password: Sequelize.STRING,
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
     });
 
     await queryInterface.createTable("Admin", {
@@ -33,74 +40,6 @@ module.exports = {
       password: Sequelize.STRING,
     });
 
-    await queryInterface.createTable("Login", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        allowNull: false,
-      },
-      timestamp: Sequelize.DATE,
-    });
-
-    await queryInterface.createTable("Register", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        allowNull: false,
-      },
-      timestamp: Sequelize.DATE,
-    });
-
-    await queryInterface.createTable("Logout", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        allowNull: false,
-      },
-      timestamp: Sequelize.DATE,
-    });
-
-    await queryInterface.createTable("Anggota", {
-      id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      user_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        allowNull: false,
-      },
-      nama: Sequelize.STRING,
-    });
-
     await queryInterface.createTable("Kategori", {
       id: {
         type: Sequelize.INTEGER,
@@ -108,7 +47,6 @@ module.exports = {
         autoIncrement: true,
       },
       nama: Sequelize.STRING,
-
     });
 
     await queryInterface.createTable("Proyek", {
@@ -136,6 +74,18 @@ module.exports = {
         },
         allowNull: false,
       },
+      image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
     });
 
     await queryInterface.createTable("Komentar", {
@@ -161,7 +111,6 @@ module.exports = {
         allowNull: false,
       },
       isi: Sequelize.TEXT,
-    
     });
 
     await queryInterface.createTable("Pembayaran", {
@@ -202,10 +151,6 @@ module.exports = {
     await queryInterface.dropTable("Pembayaran");
     await queryInterface.dropTable("Proyek");
     await queryInterface.dropTable("Kategori");
-    await queryInterface.dropTable("Anggota");
-    await queryInterface.dropTable("Logout");
-    await queryInterface.dropTable("Register");
-    await queryInterface.dropTable("Login");
     await queryInterface.dropTable("Admin");
     await queryInterface.dropTable("Users");
 

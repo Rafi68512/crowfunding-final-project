@@ -60,7 +60,15 @@ const getProyekById = async (req, res) => {
 
 const createProyek = async (req, res) => {
   try {
-    const proyek = await Proyek.create(req.body);
+    const proyek = await Proyek.create({
+      nama: req.body.nama,
+      deskripsi: req.body.deskripsi,
+      goal: req.body.goal,
+      kategori_id: req.body.kategori_id,
+      user_id: req.user.id,
+      image: req.file.filename,
+    });
+
     res.status(201).json(proyek);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -71,7 +79,13 @@ const updateProyek = async (req, res) => {
   try {
     const proyek = await Proyek.findByPk(req.params.id);
     if (proyek) {
-      await proyek.update(req.body);
+      // Update attributes based on your model
+      await proyek.update({
+        nama: req.body.nama,
+        deskripsi: req.body.deskripsi,
+        goal: req.body.goal,
+        kategori_id: req.body.kategori_id,
+      });
       res.json(proyek);
     } else {
       res.status(404).json({ error: "Proyek not found" });
