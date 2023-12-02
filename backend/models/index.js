@@ -48,10 +48,16 @@ const Proyek = sequelize.define(
   }
 );
 
-const Pembayaran = sequelize.define("Pembayaran", {
-  jumlah_pembayaran: DataTypes.INTEGER,
-  tanggal_pembayaran: DataTypes.DATE,
-});
+const Pembayaran = sequelize.define(
+  "Pembayaran",
+  {
+    jumlah_pembayaran: DataTypes.INTEGER,
+    tanggal_pembayaran: DataTypes.DATE,
+  },
+  {
+    freezeTableName: true,
+  }
+);
 
 const Kategori = sequelize.define("Kategori", {
   nama: DataTypes.STRING,

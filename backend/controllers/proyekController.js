@@ -1,6 +1,6 @@
 // controllers/proyekController.js
 
-const { Proyek } = require("../models");
+const { Proyek, Pembayaran } = require("../models");
 const jwt = require("jsonwebtoken");
 const { User } = require("../models");
 const multer = require("multer");
@@ -53,6 +53,19 @@ const getProyekById = async (req, res) => {
   try {
     const proyek = await Proyek.findByPk(req.params.id);
     res.json(proyek);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getTotalTerkumpul = async (req, res) => {
+  try {
+    const proyekId = req.params.id;
+    const totalTerkumpul = await Pembayaran.sum("jumlah_pembayaran", {
+      where: { proyek_id: proyekId },
+    });
+
+    res.status(200).json({ totalTerkumpul });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -116,4 +129,5 @@ module.exports = {
   updateProyek,
   deleteProyek,
   upload,
+  getTotalTerkumpul,
 };

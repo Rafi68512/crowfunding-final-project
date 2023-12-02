@@ -3,6 +3,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const midtransClient = require("midtrans-client");
 const axios = require("axios");
 const dotenv = require("dotenv");
+const { Proyek } = require("../models");
 const seq = new Sequelize("donasi", "postgres", "12345", {
   host: "localhost",
   dialect: "postgres",
@@ -85,6 +86,16 @@ router.post("/process-transaction", async (req, res) => {
         proyek_id: req.body.order_id,
         jumlah_pembayaran: req.body.jumlah,
       });
+
+      const proyek = await Proyek.findByPk(req.body.order_id);
+      if (proyek) {
+        const totalTerkumpul = await Pembayaran.sum("jumlah_pembayaran", {
+          where: { proyek_id: req.body.order_id },
+        });
+
+        await proyek.update({ terkumpul: totalTerkumpul });
+      }
+
       res.status(200).json({
         message: "Berhasil menambahkan pembayaran.",
         token: transaction.token,
@@ -114,10 +125,10 @@ router.get("/payments", async (req, res) => {
 });
 
 // Endpoint untuk mendapatkan detail transaksi berdasarkan transactionId
-router.get("/transaction-details/:transactionId", async (req, res) => {
+router.get("/transaction-details/:orderId", async (req, res) => {
   try {
-    const { transactionId } = req.params;
-    const midtransApiUrl = `https://api.sandbox.midtrans.com/v2/${transactionId}/status`; // Ganti dengan URL API Midtrans yang sesuai
+    const { orderId } = req.params;
+    const midtransApiUrl = `https://api.sandbox.midtrans.com/v2/${orderId}/status`; // URL API Midtrans yang sesuai dengan orderId
 
     // Pastikan untuk mengatur header Authorization dengan menggunakan Basic Auth
     const authHeader = {
