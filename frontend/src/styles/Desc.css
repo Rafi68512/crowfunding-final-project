@@ -1,24 +1,28 @@
 .proyek-dp7 {
+  display: flex;
     align-items: center;
     background-color: #ffffff;
-    display: flex;
     flex-direction: column;
     overflow: hidden;
     position: relative;
     width: 100%;
-  
+    
+    .donalink-7AB {
+      color: #000000;
+      font-family: Inter, 'Source Sans Pro';
+      font-size: 5rem;
+      margin-bottom: 1.15rem;
+    }
     .auto-group-yhfy-gXV {
       flex-shrink: 0;
-      height: 19.5rem;
       position: relative;
       width: 100%;
   
       .group-90-b8f {
         background-color: #1daa97;
         box-sizing: border-box;
-        height: 19.5rem;
         left: 0;
-        padding: 5.174rem 3.014rem 6.2rem 3.014rem;
+        padding: 2% ;
         position: absolute;
         top: 0;
         width: 144rem;
@@ -28,17 +32,12 @@
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
-          box-sizing: border-box;
-          height: 100%;
           margin-right: 127.686rem;
-          padding: 1.692rem 1.714rem 1.693rem 1.714rem;
           width: 10.286rem;
   
           .vector-Nod {
             height: 4.7405rem;
-            object-fit: contain;
             vertical-align: top;
-            width: 6.8574rem;
           }
         }
       }
@@ -48,24 +47,20 @@
         font-family: Inter, 'Source Sans Pro';
         font-size: 5rem;
         font-weight: 800;
-        height: 6.1rem;
-        left: 23.1rem;
-        line-height: 1.2125;
-        position: absolute;
-        top: 6.15rem;
+        left: 8REM;
+        position: relative;
         white-space: nowrap;
-        width: 23.6rem;
       }
     }
+    }
     .image-4-K6b {
-      flex-shrink: 0;
-      height: 73.1rem;
-      object-fit: cover;
-      vertical-align: top;
-      width: 144rem;
+      direction: column;
+      width: 20%;
+      vertical-align: left;
+      display: flex;
     }
     .auto-group-1n6f-FW3 {
-      flex-shrink: 0;
+
       height: 171.8rem;
       position: relative;
       width: 100%;
@@ -74,8 +69,7 @@
         color: #000000;
         display: flex;
         font-family: Inter, 'Source Sans Pro';
-        font-size: 5rem;
-        font-weight: 800;
+        font-size: 2rem;
         height: 6.1rem;
         left: 8.2rem;
         line-height: 1.2125;
@@ -100,38 +94,37 @@
       }
       .abc1 {
         color: #000000;
-        display: flex;
         font-family: Inter, 'Source Sans Pro';
-        font-size: 5rem;
-        font-weight: 800;
-        height: 97rem;
+        font-size: 3rem;
         left: 7.6rem;
         line-height: 1.2125;
         position: absolute;
-        top: 74.15rem;
-        width: 131rem;
+        top: 75rem;
   
         .abc2 {
+          color: #000000;
+          padding-top:120rem;
+          font-family: Inter, 'Source Sans Pro';
+          font-size: 3rem;
+          line-height: 1.2125;
         }
         .abc3 {
           color: #000000;
+          padding-top:120rem;
           font-family: Inter, 'Source Sans Pro';
-          font-size: 5rem;
-          font-weight: 400;
+          font-size: 3rem;
           line-height: 1.2125;
         }
         .abc4 {
           color: #000000;
           font-family: Inter, 'Source Sans Pro';
-          font-size: 5rem;
-          font-weight: 700;
+          font-size: 3rem;
           line-height: 1.2125;
         }
         .abc5 {
           color: #000000;
           font-family: Inter, 'Source Sans Pro';
-          font-size: 5rem;
-          font-weight: 400;
+          font-size: 3rem;
           line-height: 1.2125;
         }
       }
@@ -142,11 +135,10 @@
         left: 8.2rem;
         position: absolute;
         top: 3.2rem;
-        width: 51.8rem;
+        bottom: 50rem;
   
         .ellipse-8-4Bu {
           flex-shrink: 0;
-          height: 14.7rem;
           margin-right: 4.5rem;
           object-fit: contain;
           vertical-align: top;
@@ -159,17 +151,6 @@
           height: calc(100% - 3.75rem);
           margin: 2.55rem 0rem 1.2rem 0rem;
   
-          .donalink-7AB {
-            color: #000000;
-            display: flex;
-            flex-shrink: 0;
-            font-family: Inter, 'Source Sans Pro';
-            font-size: 5rem;
-            font-weight: 800;
-            line-height: 1.2125;
-            margin-bottom: 1.15rem;
-            white-space: nowrap;
-          }
           .identitas-terverifikasi-qM5 {
             color: #909090;
             display: flex;
@@ -177,7 +158,6 @@
             font-family: Inter, 'Source Sans Pro';
             font-size: 3rem;
             font-weight: 400;
-            line-height: 1.2125;
             white-space: nowrap;
           }
         }
@@ -266,4 +246,3 @@
       white-space: nowrap;
       width: 100%;
     }
-}
