@@ -76,6 +76,10 @@ const getTotalTerkumpul = async (req, res) => {
 
 const createProyek = async (req, res) => {
   try {
+    if (!req.file || !req.file.filename) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
     const proyek = await Proyek.create({
       nama: req.body.nama,
       deskripsi: req.body.deskripsi,
