@@ -1,14 +1,12 @@
-const express = require('express');
-const { register, login, logout,getUser } = require('../controllers/userController');
+
+// routes/authRoutes.js
+
+const express = require("express");
+const authController = require("../controllers/authController");
+
 const router = express.Router();
 
-// Rute untuk registrasi user
-router.post('/register', register);
-
-// Rute untuk login user
-router.post('/login', login);
-
-// Rute untuk logout user
-router.post('/logout', logout);
+router.post("/register", authController.registerUser);
+router.post("/login", authController.loginUser);
 
 module.exports = router;
