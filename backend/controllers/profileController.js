@@ -1,51 +1,22 @@
-const { Sequelize, DataTypes } = require("sequelize");
-
-const seq = new Sequelize("donasi", "postgres", "postgres", {
-  host: "localhost",
-  dialect: "postgres",
-});
-
-const User = seq.define(
-  "users",
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    nama: {
-      type: DataTypes.STRING,
-    },
-    email: {
-      type: DataTypes.STRING,
-    },
-    password: {
-      type: DataTypes.STRING,
-    },
-  },
-  {
-    timestamps: false,
-  }
-);
-
-seq.sync();
+// profileController.js
+const { Users } = require("../models");
+const bcrypt = require("bcrypt");
 
 const getProfiles = async (req, res) => {
   try {
-    const profiles = await User.findAll({
-      order: [
-        ["id", "ASC"], // 'ASC' untuk urutan menaik, 'DESC' untuk urutan menurun
-      ],
+    const profiles = await Users.findAll({
+      order: [["id", "ASC"]],
     });
     res.json(profiles);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 const getProfileById = async (req, res) => {
   try {
     const userId = req.params.id;
-    const user = await User.findByPk(userId);
+    const user = await Users.findByPk(userId);
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -57,27 +28,30 @@ const getProfileById = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-const addProfile = async (req, res) => {
-  const { username, email, password } = req.body;
-  console.log(nama, username, email, password);
 
-  const profile = await User.create({
-    nama,
-    username,
-    email,
-    password,
-  });
-  res.send({
-    data: profile,
-    message: "Terkirim",
-  });
+const addProfile = async (req, res) => {
+  const { nama, email, password } = req.body;
+  console.log(nama, email, password);
+
+  try {
+    const profile = await Users.create({
+      nama: req.body.nama,
+      email: req.body.email,
+      password: req.body.password,
+    });
+    res.send({
+      data: profile,
+      message: "Terkirim",
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
+
 const deleteProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-
-    // Use Sequelize's destroy method to delete a user by ID
-    const rowsDeleted = await User.destroy({
+    const rowsDeleted = await Users.destroy({
       where: {
         id: userId,
       },
@@ -96,25 +70,51 @@ const deleteProfile = async (req, res) => {
 
 const editProfile = async (req, res) => {
   try {
-    const userId = await req.params.id;
-    const { username, email, password } = req.body;
-    const [updatedUser] = await seq.query(
-      `
-        UPDATE users
-        SET username = '${username}', email = '${email}', password = '${password}'
-        WHERE id = ${userId}
-        RETURNING *
-      `,
-      { type: seq.QueryTypes.UPDATE }
+    const userId = req.params.id;
+    const { username, email, password, nama } = req.body;
+
+    const user = await Users.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    let updatedUserData = {};
+
+    if (username) {
+      updatedUserData.username = username;
+    }
+
+    if (email) {
+      updatedUserData.email = email;
+    }
+
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updatedUserData.password = hashedPassword;
+    }
+
+    if (nama) {
+      updatedUserData.nama = nama;
+    }
+
+    const [updatedRowsCount, [updatedUser]] = await Users.update(
+      updatedUserData,
+      {
+        where: { id: userId },
+        returning: true,
+      }
     );
 
-    if (!updatedUser.length) {
+    if (!updatedUser) {
       console.log("User not found.");
-    } else {
-      console.log("User updated:", updatedUser[0]);
+      return res.status(404).json({ error: "User not found" });
     }
+
+    console.log("User updated:", updatedUser);
+    res.json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.error("Error updating user:", error);
+    res.status(500).json({ error: error.message });
   }
 };
 
