@@ -7,7 +7,8 @@ import ListProyek from "./pages/ListProyek";
 import CreateProyek from "./pages/CreateProyek";
 import ListProyekUser from "./pages/ListProyekUser";
 import Payment from "./pages/Payment";
-import DescProyek from "./pages/DescProyek";
+import DescProyek from "./pages/ProyekDetail";
+// import ProyekDetail from "./pages/ProyekDetail";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/create-donation" element={<CreateProyek />}></Route>
       <Route path="/list-user-donation" element={<ListProyekUser />}></Route>
       <Route path="/payment" element={<Payment />} />
+      {/* <Route path="/detail/proyek" element={<ProyekDetail />} /> */}
     </Routes>
   );
 }
