@@ -71,7 +71,7 @@ const Kategori = sequelize.define("Kategori", {
 });
 
 // Relasi antar tabel
-Users.hasOne(Admin, { foreignKey: "user_id" });
+Users.hasOne(Admin, { foreignKey: "user_id", onDelete: "CASCADE" });
 Pembayaran.belongsTo(Users, { foreignKey: "user_id" });
 Users.hasMany(Pembayaran, { foreignKey: "user_id" });
 
