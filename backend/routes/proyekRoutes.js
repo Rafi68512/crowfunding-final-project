@@ -6,8 +6,9 @@ const proyekController = require("../controllers/proyekController");
 
 router.get("/proyek", proyekController.getAllProyek);
 router.get("/proyek/:id", proyekController.getProyekById);
+router.get("/proyek/:id/terkumpul", proyekController.getTotalTerkumpul);
 
-router.use(proyekController.authenticateTokenMiddleware);
+// router.use(proyekController.authenticateTokenMiddleware);
 
 router.use("/uploads", express.static("uploads"));
 

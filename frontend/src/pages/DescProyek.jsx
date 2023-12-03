@@ -9,7 +9,7 @@ const ProyekDetail = () => {
           <div className="icon-arrow-back-outline-HGP" id="159:12">
             <img
               className="vector-Nod"
-              src="/api/try-prod-ap-southeast-1-first-cluster/project..."
+              src="../src/assets/arrow-left-solid.svg"
               id="159:14"
               alt="Arrow"
             />
@@ -19,12 +19,12 @@ const ProyekDetail = () => {
           Deskripsi
         </div>
       </div>
-      <img
+      {/* <img
         className="image-4-K6b"
-        src="../assets/logo.png"
+        src="../src/assets/logo.png"
         id="159:17"
         alt="Project Image"
-      />
+      /> */}
       <div className="auto-group-1n6f-FW3" id="2rmPALom7vxVzo3WVC1n6F">
         <div className="satukan-solidaritas-bantu-korban-konflik-di-gaza-Naf" id="159:16">
           Satukan Solidaritas, Bantu Korban Konflik di Gaza
@@ -61,12 +61,7 @@ const ProyekDetail = () => {
           </span>
         </div>
         <div className="auto-group-wzrh-Lmh" id="2rmNpMP51oJfbiBCvbwzRH">
-          <img
-            className="ellipse-8-4Bu"
-            src="frontend/src/assets/logo.png"
-            id="159:17"
-            alt="Ellipse"
-          />
+          
           <div className="auto-group-x81h-BXR" id="2rmNvrCF9bHusuuew3X81h">
             <div className="donalink-7AB" id="159:18">
               DonaLink
@@ -94,6 +89,7 @@ const ProyekDetail = () => {
           id="161:34"
           alt="Line"
         />
+        
       </div>
       <div className="group-91-PYw" id="159:22">
         Donasi Sekarang

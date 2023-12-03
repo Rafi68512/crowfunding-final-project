@@ -18,6 +18,7 @@ const Users = sequelize.define(
   },
   {
     timestamps: true,
+    freezeTableName: true,
   }
 );
 
@@ -28,9 +29,15 @@ const Admin = sequelize.define("Admin", {
   password: DataTypes.STRING,
 });
 
-const Komentar = sequelize.define("Komentar", {
-  isi: DataTypes.TEXT,
-});
+const Komentar = sequelize.define(
+  "Komentar",
+  {
+    isi: DataTypes.TEXT,
+  },
+  {
+    freezeTableName: true,
+  }
+);
 
 const Proyek = sequelize.define(
   "Proyek",
@@ -48,10 +55,16 @@ const Proyek = sequelize.define(
   }
 );
 
-const Pembayaran = sequelize.define("Pembayaran", {
-  jumlah_pembayaran: DataTypes.INTEGER,
-  tanggal_pembayaran: DataTypes.DATE,
-});
+const Pembayaran = sequelize.define(
+  "Pembayaran",
+  {
+    jumlah_pembayaran: DataTypes.INTEGER,
+    tanggal_pembayaran: DataTypes.DATE,
+  },
+  {
+    freezeTableName: true,
+  }
+);
 
 const Kategori = sequelize.define("Kategori", {
   nama: DataTypes.STRING,
@@ -62,13 +75,16 @@ Users.hasOne(Admin, { foreignKey: "user_id" });
 Pembayaran.belongsTo(Users, { foreignKey: "user_id" });
 Users.hasMany(Pembayaran, { foreignKey: "user_id" });
 
-Pembayaran.belongsTo(Proyek, { foreignKey: "proyek_id" });
+Pembayaran.belongsTo(Proyek, { foreignKey: "proyek_id", onDelete: "CASCADE" });
 Proyek.hasMany(Pembayaran, { foreignKey: "proyek_id" });
+
+Proyek.belongsTo(Kategori, { foreignKey: "kategori_id" });
+Kategori.hasMany(Proyek, { foreignKey: "kategori_id" });
 
 Komentar.belongsTo(Users, { foreignKey: "user_id" });
 Users.hasMany(Komentar, { foreignKey: "user_id" });
 
-Komentar.belongsTo(Proyek, { foreignKey: "proyek_id" });
+Komentar.belongsTo(Proyek, { foreignKey: "proyek_id", onDelete: "CASCADE" });
 Proyek.hasMany(Komentar, { foreignKey: "proyek_id" });
 
 module.exports = {
